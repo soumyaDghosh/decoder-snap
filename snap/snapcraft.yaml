@@ -1,0 +1,65 @@
+name: decoder 
+base: core22
+adopt-info: decoder
+grade: stable
+confinement: strict
+
+parts:
+  rustup:
+    plugin: nil
+    build-packages: [wget]
+    build-environment:
+      - RUSTUP_HOME: $CRAFT_PART_INSTALL/usr/share/rust
+      - CARGO_HOME: $CRAFT_PART_INSTALL/usr/share/rust
+      - CARGO_BUILD_JOBS: $CRAFT_PARALLEL_BUILD_COUNT
+    override-pull: |
+      wget https://sh.rustup.rs -O $CRAFT_PART_SRC/rustup-init.sh
+      chmod +x $CRAFT_PART_SRC/rustup-init.sh
+    override-build: |
+      $CRAFT_PART_SRC/rustup-init.sh -y --no-modify-path
+      mkdir -p $CRAFT_PART_INSTALL/usr/bin
+      for i in `ls $RUSTUP_HOME/bin/`; do
+        ln -s ../share/rust/bin/$i $CRAFT_PART_INSTALL/usr/bin/$i
+      done
+    override-prime: ''
+
+  zbar:
+    plugin: nil
+    stage-packages:
+      - libzbar0
+    prime:
+      - usr/lib/*/libzbar*
+
+  decoder:
+    after:
+      - zbar
+      - rustup
+    plugin: meson
+    source: https://gitlab.gnome.org/World/decoder.git
+    source-tag: '0.4.1'
+    source-depth: 1
+    meson-parameters:
+      - --prefix=/snap/decoder/current/usr
+    build-environment:
+      - RUSTUP_HOME: $CRAFT_STAGE/usr/share/rust
+      - CARGO_HOME: $CRAFT_STAGE/usr/share/rust
+      - CARGO_BUILD_JOBS: $CRAFT_PARALLEL_BUILD_COUNT
+    build-packages:
+      - libgstreamer-plugins-bad1.0-dev
+      - libgstreamer-plugins-good1.0-dev
+      - libgstreamer1.0-dev
+      - libzbar-dev
+    parse-info: [ usr/share/metainfo/com.belmoussaoui.Decoder.metainfo.xml ]
+
+slots:
+  decoder:
+    interface: dbus
+    bus: session
+    name: com.belmoussaoui.Decoder
+
+apps:
+  decoder:
+    command: usr/bin/decoder
+    extensions:
+      - gnome
+    common-id: com.belmoussaoui.Decoder
