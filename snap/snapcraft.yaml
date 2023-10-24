@@ -51,6 +51,8 @@ parts:
       - libzbar-dev
       - libssl-dev
     parse-info: [ usr/share/metainfo/com.belmoussaoui.Decoder.metainfo.xml ]
+    organize: 
+      snap/decoder/current: .
 
 slots:
   decoder:
