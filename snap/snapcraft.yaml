@@ -49,6 +49,7 @@ parts:
       - libgstreamer-plugins-good1.0-dev
       - libgstreamer1.0-dev
       - libzbar-dev
+      - libssl-dev
     parse-info: [ usr/share/metainfo/com.belmoussaoui.Decoder.metainfo.xml ]
 
 slots:
