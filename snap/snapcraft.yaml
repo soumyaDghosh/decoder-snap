@@ -5,6 +5,21 @@ grade: stable
 confinement: strict
 
 parts:
+  pipewire:
+    source: https://gitlab.freedesktop.org/pipewire/pipewire.git
+    source-tag: '0.3.80'
+    plugin: meson
+    meson-parameters:
+      - --prefix=/usr
+      - -Dexamples=disabled
+      - -Dtests=disabled
+      - -Dman=disabled
+      - -Dgstreamer=enabled
+      - -Dgstreamer-device-provider=enabled
+    prime:
+      - -usr/lib/*/pkgconfig
+      - -usr/include
+
   rustup:
     plugin: nil
     build-packages: [wget]
@@ -23,7 +38,7 @@ parts:
       done
     override-prime: ''
 
-  zbar:
+  deps:
     plugin: nil
     stage-packages:
       - libzbar0
@@ -70,6 +85,10 @@ slots:
 apps:
   decoder:
     command: usr/bin/decoder
+    environment:
+      SPA_PLUGIN_DIR: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/spa-0.2/
+      PIPEWIRE_CONFIG_NAME: $SNAP/usr/share/pipewire/pipewire.conf
+      PIPEWIRE_MODULE_DIR: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/pipewire-0.3
     extensions:
       - gnome
     common-id: com.belmoussaoui.Decoder
