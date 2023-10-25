@@ -29,10 +29,12 @@ parts:
       - libzbar0
       - gstreamer1.0-gl
       - libgstreamer-gl1.0-0
+      - libaperture-0-0
     prime:
       - usr/lib/*/libgstgl-1.0.so.0
       - usr/lib/*/libgstgl-1.0.so.0.2001.0
-      - usr/lib/x86_64-linux-gnu/*/libgstopengl.so
+      - usr/lib/*/libgstopengl.so
+      - usr/lib/*/libaperture-0.so.0
       - usr/lib/*/libzbar*
 
   decoder:
