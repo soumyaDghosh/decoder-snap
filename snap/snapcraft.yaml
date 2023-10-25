@@ -33,7 +33,7 @@ parts:
     prime:
       - usr/lib/*/libgstgl-1.0.so.0
       - usr/lib/*/libgstgl-1.0.so.0.2001.0
-      - usr/lib/*/libgstopengl.so
+      - usr/lib/*/gstreamer-1.0/libgstopengl.so
       - usr/lib/*/libaperture-0.so.0
       - usr/lib/*/libzbar*
 
