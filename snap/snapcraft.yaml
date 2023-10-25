@@ -225,3 +225,5 @@ apps:
     extensions:
       - gnome
     common-id: com.belmoussaoui.Decoder
+    plugs:
+      - camera
