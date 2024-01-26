@@ -1,0 +1,7 @@
+#!/bin/bash
+
+export SPA_PLUGIN_DIR: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/spa-0.2/
+export PIPEWIRE_CONFIG_NAME: $SNAP/usr/share/pipewire/pipewire.conf
+export PIPEWIRE_MODULE_DIR: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/pipewire-0.3
+
+exec "$@"
