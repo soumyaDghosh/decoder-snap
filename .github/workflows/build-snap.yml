@@ -1,4 +1,4 @@
-name: Build Clapper
+name: Build Decoder
 on:
   push:
     branches:
