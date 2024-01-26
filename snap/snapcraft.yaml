@@ -5,9 +5,15 @@ grade: stable
 confinement: strict
 
 parts:
+  launcher:
+    plugin: dump
+    source: .
+    prime:
+      - launcher
   pipewire:
     source: https://gitlab.freedesktop.org/pipewire/pipewire.git
-    source-tag: '0.3.80'
+    source-tag: '1.0.1'
+    source-depth: 1
     plugin: meson
     meson-parameters:
       - --prefix=/usr
@@ -36,25 +42,22 @@ parts:
       for i in `ls $RUSTUP_HOME/bin/`; do
         ln -s ../share/rust/bin/$i $CRAFT_PART_INSTALL/usr/bin/$i
       done
-    override-prime: ''
+    override-prime: '' 
 
-  deps:
+  gst-plugins-bad:
     plugin: nil
     stage-packages:
-      - libzbar0
-      - gstreamer1.0-gl
+      - gstreamer1.0-plugins-bad
       - libgstreamer-gl1.0-0
-      - libaperture-0-0
-    prime:
-      - usr/lib/*/libgstgl-1.0.so.0
-      - usr/lib/*/libgstgl-1.0.so.0.2001.0
-      - usr/lib/*/gstreamer-1.0/libgstopengl.so
-      - usr/lib/*/libaperture-0.so.0
-      - usr/lib/*/libzbar*
+      - gstreamer1.0-gl
+    override-prime: |
+      craftctl default
+      for snap in "core22" "gnome-42-2204"; do
+        cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$CRAFT_PART_INSTALL/{}" \;
+       done
 
   decoder:
     after:
-      - zbar
       - rustup
     plugin: meson
     source: https://gitlab.gnome.org/World/decoder.git
@@ -85,10 +88,6 @@ slots:
 apps:
   decoder:
     command: usr/bin/decoder
-    environment:
-      SPA_PLUGIN_DIR: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/spa-0.2/
-      PIPEWIRE_CONFIG_NAME: $SNAP/usr/share/pipewire/pipewire.conf
-      PIPEWIRE_MODULE_DIR: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/pipewire-0.3
     extensions:
       - gnome
     common-id: com.belmoussaoui.Decoder
