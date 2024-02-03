@@ -12,7 +12,7 @@ parts:
       - launcher
   pipewire:
     source: https://gitlab.freedesktop.org/pipewire/pipewire.git
-    source-tag: '1.0.2'
+    source-tag: '1.0.3'
     source-depth: 1
     plugin: meson
     meson-parameters:
