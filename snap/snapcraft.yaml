@@ -61,7 +61,7 @@ parts:
       - rustup
     plugin: meson
     source: https://gitlab.gnome.org/World/decoder.git
-    source-tag: '0.7.1'
+    source-tag: '0.8.0'
     source-depth: 1
     meson-parameters:
       - --prefix=/snap/decoder/current/usr
